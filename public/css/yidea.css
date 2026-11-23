@@ -2530,3 +2530,128 @@ body.mobile-preview * {
     padding-top:22px;
     margin-top:25px;
 }
+
+/* Collapse the shared Laravel navigation on narrow screens. */
+.topbar-menu { display: contents; }
+.topbar-search { position: relative; }
+.mobile-menu-button { display: none; }
+
+@media (max-width: 850px) {
+    .topbar,
+    body.mobile-preview .topbar {
+        height: 64px;
+        padding: 0;
+        overflow: visible;
+    }
+
+    .topbar-inner,
+    body.mobile-preview .topbar-inner {
+        width: 100%;
+        height: 100%;
+        padding: 0 12px;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .mobile-menu-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 0 14px;
+        border: 1px solid #e2dfff;
+        border-radius: 10px;
+        background: #f2f0ff;
+        color: #473cc6;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .topbar-menu {
+        display: none;
+        position: absolute;
+        inset: 100% 0 auto;
+        max-height: calc(100vh - 64px);
+        max-height: calc(100dvh - 64px);
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+        padding: 12px;
+        border-bottom: 1px solid #e9ebf0;
+        background: #fff;
+        box-shadow: 0 12px 24px rgba(17, 26, 46, .14);
+    }
+
+    .topbar-menu.is-open {
+        display: grid;
+        gap: 8px;
+    }
+
+    .topbar .main-nav,
+    body.mobile-preview .topbar .main-nav {
+        display: grid !important;
+        gap: 4px;
+    }
+
+    .topbar .main-nav a {
+        display: block;
+        padding: 12px;
+        min-height: 44px;
+        border-radius: 8px;
+        background: #f7f7fc;
+        font-size: 14px;
+        line-height: 20px;
+        white-space: normal;
+    }
+
+    .topbar .main-nav a.active { background: #eeebff; }
+    .topbar .main-nav a.active::after { display: none; }
+
+    .topbar-menu br { display: none; }
+
+    .topbar-menu .owner-hq-button,
+    .topbar-menu .mobile-view-btn,
+    .topbar-menu .nav-search,
+    .topbar-menu .login-link,
+    .topbar-menu .logout-button,
+    body.mobile-preview .topbar-menu .owner-hq-button,
+    body.mobile-preview .topbar-menu .mobile-view-btn,
+    body.mobile-preview .topbar-menu .nav-search {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 44px;
+        margin: 0;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .topbar-menu .nav-search::after { content: "Cari project"; margin-left: 8px; }
+
+    .topbar-menu #navSearchForm {
+        position: static !important;
+        width: 100% !important;
+        margin-top: 4px;
+        box-shadow: none !important;
+    }
+
+    .topbar-menu .account-box,
+    .topbar-menu .account-name {
+        display: flex;
+        margin-left: 0;
+        min-width: 0;
+    }
+
+    .topbar-menu .account-name {
+        flex-direction: column;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 850px) {
+    body.mobile-preview .topbar-menu .logout-button,
+    body.mobile-preview .topbar-menu .account-box {
+        display: flex !important;
+    }
+}
