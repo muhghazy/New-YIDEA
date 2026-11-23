@@ -26,6 +26,12 @@
             </span>
         </a>
 
+        <button type="button" class="mobile-menu-button" id="mobileMenuButton"
+            aria-controls="topbarMenu" aria-expanded="false">
+            <span aria-hidden="true">☰</span> Menu
+        </button>
+
+        <div class="topbar-menu" id="topbarMenu">
         {{-- NAVIGATION --}}
         <nav class="main-nav">
 
@@ -108,8 +114,8 @@
 @endauth
 
         {{-- SEARCH --}}
-<div style="position:relative;">
-    <button type="button" class="nav-search" id="searchToggle">
+<div class="topbar-search">
+    <button type="button" class="nav-search" id="searchToggle" aria-label="Cari project" aria-controls="navSearchForm" aria-expanded="false">
         ⌕
     </button>
 
@@ -249,6 +255,7 @@
             </a>
         @endauth
 
+        </div>
     </div>
 </header>
 
@@ -332,6 +339,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+const menuButton = document.getElementById('mobileMenuButton');
+const topbarMenu = document.getElementById('topbarMenu');
+
+function setMobileMenu(open) {
+    menuButton.setAttribute('aria-expanded', String(open));
+    topbarMenu.classList.toggle('is-open', open);
+}
+
+menuButton.addEventListener('click', function () {
+    setMobileMenu(menuButton.getAttribute('aria-expanded') === 'false');
+});
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+        setMobileMenu(false);
+        menuButton.focus();
+    }
+});
+
+document.addEventListener('click', function (event) {
+    if (!topbarMenu.contains(event.target) && !menuButton.contains(event.target)) {
+        setMobileMenu(false);
+    }
+});
+
+matchMedia('(max-width: 850px)').addEventListener('change', function () {
+    setMobileMenu(false);
+});
+
 // SEARCH NAVBAR
 const searchToggle = document.getElementById('searchToggle');
 const navSearchForm = document.getElementById('navSearchForm');
@@ -344,6 +380,11 @@ if (searchToggle && navSearchForm) {
             navSearchForm.style.display === 'none'
                 ? 'block'
                 : 'none';
+        const expanded = navSearchForm.style.display === 'block';
+        searchToggle.setAttribute('aria-expanded', String(expanded));
+        if (expanded) {
+            navSearchForm.elements.q.focus();
+        }
     });
 
     document.addEventListener('click', function (event) {
@@ -352,6 +393,7 @@ if (searchToggle && navSearchForm) {
             !searchToggle.contains(event.target)
         ) {
             navSearchForm.style.display = 'none';
+            searchToggle.setAttribute('aria-expanded', 'false');
         }
     });
 }
